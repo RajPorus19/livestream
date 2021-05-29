@@ -7,4 +7,5 @@ class ChatMsgSerializer(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {
             'sentTime': {'read_only': True},
+            'sender': {'read_only': True},
         }
