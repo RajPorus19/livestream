@@ -10,6 +10,9 @@ class ChatMsgSet(viewsets.ModelViewSet):
     queryset = ChatMsg.objects.all()
     permission_classes = [AllowAny]
 
+    def get_queryset(self):
+        return ChatMsg.objects.for_user(self.request.user).all()
+
     def create(self, *args, **kwargs):
         newMsg = ChatMsg.objects.create(
                 message=self.request.data["message"],
