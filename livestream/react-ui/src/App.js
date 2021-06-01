@@ -1,12 +1,10 @@
 import './App.css';
 import './video-js.css';
 import VideoPlayer from './components/VideoPlayer.js';
-import isStreamOnline from './api/isStreamOnline.js';
+import Chat from './components/Chat.js';
 
 
 function App() {
-    console.log(isStreamOnline());
-    const test = isStreamOnline() ? "Streamer is online !" : "Stream is offline..";
     const videoJsOptions = {
       autoplay: true,
       controls: true,
@@ -17,8 +15,8 @@ function App() {
     }
   return (
     <div className="App">
-    <h1>{test}</h1>
     <VideoPlayer { ...videoJsOptions } />
+    <Chat />
     </div>
   );
 }

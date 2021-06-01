@@ -11,7 +11,9 @@ class ChatMsgSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return ChatMsg.objects.for_user(self.request.user).all()
+        if self.request.method in ["PUT","DELETE"]:
+            return ChatMsg.objects.for_user(self.request.user).all()
+        return ChatMsg.objects.all()
 
     def create(self, *args, **kwargs):
         newMsg = ChatMsg.objects.create(

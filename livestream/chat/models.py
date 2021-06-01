@@ -14,3 +14,9 @@ class ChatMsg(models.Model):
     message = models.CharField(max_length=300)
     sender  = models.ForeignKey(User,on_delete=models.CASCADE, to_field="username")
     sentTime = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def is_staff(self):
+       return self.sender.is_staff
+        
+    def is_superuser(self):
+       return self.sender.is_superuser
