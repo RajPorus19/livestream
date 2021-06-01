@@ -1,7 +1,7 @@
 import './App.css';
 import './video-js.css';
 import VideoPlayer from './components/VideoPlayer.js';
-import Chat from './components/Chat.js';
+import ChatBox from './components/chat/ChatBox.js';
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
     <VideoPlayer { ...videoJsOptions } />
-    <Chat />
+    <ChatBox />
     </div>
   );
 }
