@@ -1,0 +1,13 @@
+.chatBox {
+  border: 2px solid black;
+  background-color: grey;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 300px;
+  width: 300px;
+}

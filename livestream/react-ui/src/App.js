@@ -2,9 +2,10 @@ import './App.css';
 import './video-js.css';
 import VideoPlayer from './components/VideoPlayer.js';
 import ChatBox from './components/chat/ChatBox.js';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+
     const videoJsOptions = {
       autoplay: true,
       controls: true,
@@ -15,8 +16,16 @@ function App() {
     }
   return (
     <div className="App">
-    <VideoPlayer { ...videoJsOptions } />
-    <ChatBox />
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <VideoPlayer { ...videoJsOptions } />
+                </div>
+                <div class="col-4">
+                    <ChatBox />
+                </div>
+            </div>
+        </div>
     </div>
   );
 }
