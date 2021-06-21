@@ -15,9 +15,13 @@ function ChatBox() {
   async function sendMessage(message) {
     socket.emit("sentMessage");
   }
+  async function postMessageToAPI(message) {
+    alert("doesn't work for the moment");
+  }
   useEffect(() => {
     socket.on("connect", () => {
       socket.emit("username", socket.id);
+      fetchMessages();
     });
     socket.on("fetchMessage", async () => {
       await fetchMessages();

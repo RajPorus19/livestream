@@ -9,7 +9,13 @@ from .models import ChatMsg
 class ChatMsgSet(viewsets.ModelViewSet):
     serializer_class = ChatMsgSerializer
     queryset = ChatMsg.objects.all()
-    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == "GET" and self.action in ["list", "retrieve"]:
+            self.permission_classes = [AllowAny]
+        else:
+            self.permission_classes = [IsAuthenticated]
+        return super(ChatMsgSet, self).get_permissions()
 
     def get_queryset(self):
         if self.request.method in ["PUT", "DELETE"]:
