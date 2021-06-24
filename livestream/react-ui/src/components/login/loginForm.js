@@ -11,8 +11,6 @@ export default class LoginForm extends React.Component {
   mySubmitHandler = async (event) => {
     event.preventDefault();
     const res = await obtainTokenPair(this.state.username, this.state.password);
-    const access = res["access"];
-    const refresh = res["refresh"];
   };
   myChangeHandler = (event) => {
     let nam = event.target.name;
@@ -53,5 +51,10 @@ async function obtainTokenPair(username, password) {
     }),
   });
   const content = await rawResponse.json();
+  storeTokenPair(content["access"], content["refresh"]);
   return content;
+}
+function storeTokenPair(access, refresh) {
+  localStorage.setItem("access", access);
+  localStorage.setItem("refresh", refresh);
 }
