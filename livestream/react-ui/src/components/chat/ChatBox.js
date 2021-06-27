@@ -8,9 +8,14 @@ const socket = socketIOClient(ENDPOINT);
 
 function ChatBox() {
   const [messages, setMessage] = useState([]);
+  const [myMessage, setMyMessage] = useState("");
   async function fetchMessages() {
     const response = await fetch("http://127.0.0.1:8000/api/chat/");
     setMessage(await response.json());
+  }
+  function handleMyMessage(event) {
+    //setMyMessage(event.target.value);
+    console.log(event.target.value);
   }
   async function sendMessage(message) {
     socket.emit("sentMessage");
@@ -25,7 +30,6 @@ function ChatBox() {
     });
     socket.on("fetchMessage", async () => {
       await fetchMessages();
-      console.log("IT WORKS");
     });
   }, []);
   return (
@@ -33,10 +37,10 @@ function ChatBox() {
       {messages.map((messageItem, index) => {
         return <ChatMessage message={messageItem} />;
       })}
-      <input value="hello" />
+      <input type="text" name="myMessage" />
       <button
         onClick={async () => {
-          await sendMessage("hello");
+          await sendMessage(myMessage);
         }}
       >
         send
