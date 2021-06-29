@@ -53,7 +53,24 @@ async function obtainTokenPair(username, password) {
   const content = await rawResponse.json();
   storeTokenPair(content["access"], content["refresh"]);
   return content;
+  await refreshToken();
 }
+
+async function refreshToken() {
+  const rawResponse = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refresh: localStorage.getItem("refresh"),
+    }),
+  });
+  const content = await rawResponse.json();
+  localStorage.setItem("access", content["access"]);
+}
+
 function storeTokenPair(access, refresh) {
   localStorage.setItem("access", access);
   localStorage.setItem("refresh", refresh);

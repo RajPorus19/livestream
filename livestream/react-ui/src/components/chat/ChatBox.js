@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import ChatMessage from "./ChatMessage.js";
 import "./ChatBox.css";
 import socketIOClient from "socket.io-client";
+import ChatInput from "./chatInput.js";
 
 const ENDPOINT = "http://localhost:9000";
 const socket = socketIOClient(ENDPOINT);
 
 function ChatBox() {
   const [messages, setMessage] = useState([]);
-  const [myMessage, setMyMessage] = useState("");
   async function fetchMessages() {
     const response = await fetch("http://127.0.0.1:8000/api/chat/");
     setMessage(await response.json());
@@ -37,14 +37,7 @@ function ChatBox() {
       {messages.map((messageItem, index) => {
         return <ChatMessage message={messageItem} />;
       })}
-      <input type="text" name="myMessage" />
-      <button
-        onClick={async () => {
-          await sendMessage(myMessage);
-        }}
-      >
-        send
-      </button>
+      <ChatInput />
     </div>
   );
 }
