@@ -5,7 +5,17 @@ import ChatBox from "./components/chat/ChatBox.js";
 import LoginForm from "./components/login/loginForm.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+import { BrowserRouter, Route} from "react-router-dom";
+
+function App(){
+    return (
+        <BrowserRouter>
+        <Route path="/" component={Main}/>
+        </BrowserRouter>
+    );
+}
+
+function Main() {
   const videoJsOptions = {
     autoplay: true,
     controls: true,
