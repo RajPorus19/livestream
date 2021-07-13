@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -6,11 +7,23 @@ export default class LoginForm extends React.Component {
     this.state = {
       username: "",
       password: "",
+      error: "",
+      login: false,
     };
   }
   mySubmitHandler = async (event) => {
     event.preventDefault();
-    const res = await obtainTokenPair(this.state.username, this.state.password);
+    const res = await login(this.state.username, this.state.password);
+    if(res===200){
+      this.setState({error:"Succes !",login:true})
+    }
+    else if(res===401){
+      this.setState({error:"Invalid credentials"})
+    }
+    else{
+      this.setState({error:"Oops, unkwown error"})
+      console.log(res.status)
+    }
   };
   myChangeHandler = (event) => {
     let nam = event.target.name;
@@ -19,9 +32,15 @@ export default class LoginForm extends React.Component {
   };
 
   render() {
+    if(this.state.login){
+      return <Redirect to='/'/>;
+    }
+    else{
     return (
+      <div class="container text-center">
       <form onSubmit={this.mySubmitHandler}>
         <h1>Hello {this.state.username}</h1>
+        <h3>{this.state.error}</h3>
         <p>Enter your username:</p>
         <input type="text" name="username" onChange={this.myChangeHandler} />
         <p>Enter your password:</p>
@@ -34,11 +53,24 @@ export default class LoginForm extends React.Component {
         <br />
         <input type="submit" />
       </form>
+
+      </div>
     );
+  }
   }
 }
 
-async function obtainTokenPair(username, password) {
+async function login(username, password){
+  const res = await fetchTokenPair(username, password);
+  if (res.status===200){
+    const tokenpair = await res.json();
+    storeTokenPair(tokenpair);
+    await refreshToken()
+  }
+  return res.status
+}
+
+async function fetchTokenPair(username, password) {
   const rawResponse = await fetch("http://127.0.0.1:8000/api/token/", {
     method: "POST",
     headers: {
@@ -50,10 +82,10 @@ async function obtainTokenPair(username, password) {
       password: password,
     }),
   });
-  const content = await rawResponse.json();
-  storeTokenPair(content["access"], content["refresh"]);
-  return content;
-  await refreshToken();
+  // const content = await rawResponse.json();
+  // storeTokenPair(content["access"], content["refresh"]);
+  // await refreshToken();
+  return rawResponse;
 }
 
 async function refreshToken() {
@@ -67,11 +99,13 @@ async function refreshToken() {
       refresh: localStorage.getItem("refresh"),
     }),
   });
-  const content = await rawResponse.json();
-  localStorage.setItem("access", content["access"]);
+  if(rawResponse.status===200){
+    const content = await rawResponse.json();
+    localStorage.setItem("access", content["access"]);
+  }
 }
 
-function storeTokenPair(access, refresh) {
-  localStorage.setItem("access", access);
-  localStorage.setItem("refresh", refresh);
+function storeTokenPair(tokenpair) {
+  localStorage.setItem("access", tokenpair["access"]);
+  localStorage.setItem("refresh", tokenpair["refresh"]);
 }

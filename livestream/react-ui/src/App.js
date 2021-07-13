@@ -3,6 +3,7 @@ import "./video-js.css";
 import VideoPlayer from "./components/VideoPlayer.js";
 import ChatBox from "./components/chat/ChatBox.js";
 import LoginForm from "./components/login/loginForm.js";
+import Header from "./components/bar/Header.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { BrowserRouter, Route} from "react-router-dom";
@@ -10,7 +11,11 @@ import { BrowserRouter, Route} from "react-router-dom";
 function App(){
     return (
         <BrowserRouter>
-        <Route path="/" component={Main}/>
+        <div className="App">
+          <Header/>
+        </div>
+        <Route path="/" component={Main} exact/>
+        <Route path="/login" component={LoginForm}/>
         </BrowserRouter>
     );
 }
@@ -35,9 +40,6 @@ function Main() {
           </div>
           <div class="col-4">
             <ChatBox />
-          </div>
-          <div class="col-4">
-            <LoginForm />
           </div>
         </div>
       </div>
