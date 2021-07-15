@@ -6,6 +6,9 @@ export default class RegisterForm extends React.Component {
     super(props);
     this.state = {
       username: "",
+      email: "",
+      firstname: "",
+      lastname: "",
       password: "",
       error: "",
       login: false,
@@ -13,12 +16,9 @@ export default class RegisterForm extends React.Component {
   }
   mySubmitHandler = async (event) => {
     event.preventDefault();
-    const res = await login(this.state.username, this.state.password);
-    if(res===200){
+    const res = await register(this.state);
+    if(res===201){
       this.setState({error:"Succes !",login:true})
-    }
-    else if(res===401){
-      this.setState({error:"Invalid credentials"})
     }
     else{
       this.setState({error:"Oops, unkwown error"})
@@ -41,6 +41,12 @@ export default class RegisterForm extends React.Component {
       <form onSubmit={this.mySubmitHandler}>
         <h1>Hello {this.state.username}</h1>
         <h3>{this.state.error}</h3>
+        <p>Enter your first name:</p>
+        <input type="text" name="firstname" onChange={this.myChangeHandler} />
+        <p>Enter your last name:</p>
+        <input type="text" name="lastname" onChange={this.myChangeHandler} />
+        <p>Enter your email:</p>
+        <input type="text" name="email" onChange={this.myChangeHandler} />
         <p>Enter your username:</p>
         <input type="text" name="username" onChange={this.myChangeHandler} />
         <p>Enter your password:</p>
@@ -62,26 +68,27 @@ export default class RegisterForm extends React.Component {
   }
 }
 
-async function login(username, password){
-  const res = await fetchTokenPair(username, password);
-  if (res.status===200){
-    const tokenpair = await res.json();
-    storeTokenPair(tokenpair);
-    await refreshToken()
+async function register(state){
+  const res = await create_user(state);
+  if (res.status===201){
+      alert("this worked !")
   }
   return res.status
 }
 
-async function fetchTokenPair(username, password) {
-  const rawResponse = await fetch("http://127.0.0.1:8000/api/token/", {
+async function create_user(state) {
+  const rawResponse = await fetch("http://127.0.0.1:8000/api/user/", {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      username: username,
-      password: password,
+    password: state.password,
+    username: state.username,
+    first_name: state.firstname,
+    last_name: state.lastname,
+    email: state.email
     }),
   });
   // const content = await rawResponse.json();
