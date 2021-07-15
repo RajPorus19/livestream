@@ -3,6 +3,7 @@ import "./video-js.css";
 import VideoPlayer from "./components/VideoPlayer.js";
 import ChatBox from "./components/chat/ChatBox.js";
 import LoginForm from "./components/login/loginForm.js";
+import RegisterForm from "./components/register/registerForm.js";
 import Header from "./components/bar/Header.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -16,6 +17,7 @@ function App(){
         </div>
         <Route path="/" component={Main} exact/>
         <Route path="/login" component={LoginForm}/>
+        <Route path="/register" component={RegisterForm}/>
         </BrowserRouter>
     );
 }

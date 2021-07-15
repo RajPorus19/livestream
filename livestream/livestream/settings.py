@@ -175,3 +175,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # livestream
 
 LIVESTREAMURL = "https://stream.url/"
+
+# remove this in prod
+AUTH_PASSWORD_VALIDATORS = [] # no password validation
