@@ -23,11 +23,13 @@ function ChatBox() {
   async function postMessageToAPI(message) {
     alert("doesn't work for the moment");
   }
-  useEffect(() => {
-    socket.on("connect", () => {
+  useEffect(async () => {
+        await fetchMessages();
+    socket.on("connect", async () => {
       socket.emit("username", socket.id);
-      fetchMessages();
-    });
+      await fetchMessages();
+    }
+    );
     socket.on("fetchMessage", async () => {
       await fetchMessages();
     });
