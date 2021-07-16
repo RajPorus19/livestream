@@ -9,5 +9,4 @@ class UserSet(viewsets.ModelViewSet):
 
     def create(self, args, **kwargs):
         user = get_user_model().objects.create_user(**self.request.data)
-        print(user)
-        return Response(data=None)
+        return Response(data=UserSerializer(user))

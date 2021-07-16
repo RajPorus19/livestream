@@ -7,6 +7,6 @@ user_detail = UserSet.as_view({'put':'update',
                                  'get':'retrieve',
                                  'delete':'destroy'})
 urlpatterns = [
-        path("user/<int:pk>/",user_detail,name="chatmsg-detail"),
-        path("user/",user_list,name="chatmsg-list"),
+        path("user/<int:pk>/",user_detail,name="user-detail"),
+        path("user/",user_list,name="user-list"),
 ]
