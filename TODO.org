@@ -1,0 +1,7 @@
+* TODO Ask to login if send message without login
+* TODO Password validation
+* TODO Remember password
+* TODO Ban user + all perms
+* TODO Show user role
+* TODO better styling for chat box
+* TODO If no stream show something else
