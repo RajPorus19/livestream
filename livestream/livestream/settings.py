@@ -35,6 +35,8 @@ CORS_ALLOWED_ORIGINS = [
 
 # Application definition
 
+USE_OAUTH2 = True
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -47,6 +49,11 @@ INSTALLED_APPS = [
     "streamutils",
     "chat",
 ]
+
+if USE_OAUTH2:
+    INSTALLED_APPS.append("oauth2_provider")
+    INSTALLED_APPS.append("social_django")
+    INSTALLED_APPS.append("rest_framework_social_oauth2")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -80,6 +87,8 @@ TEMPLATES = [
         },
     },
 ]
+if USE_OAUTH2:
+    TEMPLATE[0]["OPTIONS"]["context_processors"].append('social_django.context_processors.login_redirect')
 
 WSGI_APPLICATION = "livestream.wsgi.application"
 
@@ -114,6 +123,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 USE_JWT = True 
+if USE_OAUTH2:
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+            'rest_framework_social_oauth2.authentication.SocialAuthentication',
+        ),
+    }
 if USE_JWT:
     REST_FRAMEWORK = {
         "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -178,3 +194,9 @@ LIVESTREAMURL = "https://stream.url/"
 
 # remove this in prod
 AUTH_PASSWORD_VALIDATORS = [] # no password validation
+
+if USE_OAUTH2:
+    AUTHENTICATION_BACKENDS = (
+        'rest_framework_social_oauth2.backends.DjangoOAuth2',
+        'django.contrib.auth.backends.ModelBackend',
+    )

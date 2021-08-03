@@ -20,6 +20,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from django.conf import settings
 
 
 urlpatterns = [
@@ -30,3 +31,5 @@ urlpatterns = [
     path("api/", include("chat.urls")),
     path("api/", include("user.urls")),
 ]
+if settings.USE_OAUTH2:
+    urlpatterns.append(path('api/o/', include('oauth2_provider.urls', namespace='oauth2_provider')))
