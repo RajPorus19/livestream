@@ -35,7 +35,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # Application definition
 
-USE_OAUTH2 = True
+USE_OAUTH2 = False
 
 INSTALLED_APPS = [
     "django.contrib.admin",
