@@ -88,7 +88,7 @@ TEMPLATES = [
     },
 ]
 if USE_OAUTH2:
-    TEMPLATE[0]["OPTIONS"]["context_processors"].append('social_django.context_processors.login_redirect')
+    TEMPLATES[0]["OPTIONS"]["context_processors"].append('social_django.context_processors.login_redirect')
 
 WSGI_APPLICATION = "livestream.wsgi.application"
 
